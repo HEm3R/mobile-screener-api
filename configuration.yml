@@ -4,6 +4,7 @@ server:
   connector:
     type: http
     port: ${env.PORT!8080}
+
 logging:
   level: INFO
   loggers:
@@ -18,4 +19,9 @@ logging:
       archivedLogFilenamePattern: server-%d.log
       archivedFileCount: 5
       timeZone: UTC
-processDBSeed: ${env.DB_SEED!'yes'}
+
+mongo:
+  host: localhost
+  port: 27017
+  db: mobile
+  seed: ${env.DB_SEED!'yes'}

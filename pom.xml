@@ -51,6 +51,11 @@
             <version>${version.lombok}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mongodb.morphia</groupId>
+            <artifactId>morphia</artifactId>
+            <version>1.2.1</version>
+        </dependency>
 
         <!-- test dependencies -->
         <dependency>
