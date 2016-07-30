@@ -1,0 +1,21 @@
+server:
+  type: simple
+  applicationContextPath: /api
+  connector:
+    type: http
+    port: ${env.PORT!8080}
+logging:
+  level: INFO
+  loggers:
+    com.redhat.chalupa.mobile: ${env.LOG_LEVEL!'DEBUG'}
+  appenders:
+    - type: console
+      timeZone: UTC
+    - type: file
+      currentLogFilename: server.log
+      threshold: ALL
+      archive: true
+      archivedLogFilenamePattern: server-%d.log
+      archivedFileCount: 5
+      timeZone: UTC
+processDBSeed: ${env.DB_SEED!'yes'}

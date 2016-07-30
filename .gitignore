@@ -14,3 +14,7 @@
 # Maven
 log/
 target/
+
+# Dropwizard
+dependency-reduced-pom.xml
+server.log
