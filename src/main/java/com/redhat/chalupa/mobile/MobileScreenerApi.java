@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
+import com.redhat.chalupa.mobile.api.resources.UserResource;
 import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
@@ -42,11 +43,12 @@ public class MobileScreenerApi extends Application<MobileScreenerApiConfiguratio
             protected void configure() {}
 
             @Provides
-            public Datastore createDatastore(MobileScreenerApiConfiguration configuration) throws Exception {
+            public Datastore createDatastore() throws Exception {
                 return DatastoreProvider.provide(configuration.getMongo());
             }
         });
 
-        DatastoreProvider.provide(configuration.getMongo());
+        // register resources
+        environment.jersey().register(injector.getInstance(UserResource.class));
     }
 }
