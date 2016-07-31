@@ -14,6 +14,7 @@ import org.mongodb.morphia.query.Query;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -42,8 +43,21 @@ public class UserDaoTest {
     public void testFindAll() {
         final User user = User.builder().username("username").build();
         when(datastore.find(User.class).asList()).thenReturn(Arrays.asList(user));
+        assertThat(dao.find(0, 0)).containsExactly(user);
+    }
 
-        assertThat(dao.find()).containsExactly(user);
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testFindAllWithFilter() {
+        final int limit = 15;
+        final int offset = 2;
+        final Query<User> query = mock(Query.class);
+        when(datastore.find(User.class)).thenReturn(query);
+
+        assertThat(dao.find(limit, offset));
+
+        verify(query).limit(limit);
+        verify(query).offset(offset);
     }
 
     @Test

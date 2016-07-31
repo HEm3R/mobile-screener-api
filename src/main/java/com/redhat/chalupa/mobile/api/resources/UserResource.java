@@ -2,6 +2,7 @@ package com.redhat.chalupa.mobile.api.resources;
 
 import com.redhat.chalupa.mobile.api.dtos.UserUpdateDto;
 import com.redhat.chalupa.mobile.api.dtos.UserViewDto;
+import com.redhat.chalupa.mobile.api.params.PaginationFilter;
 import com.redhat.chalupa.mobile.mediation.EntityList;
 import com.redhat.chalupa.mobile.mediation.UserMediator;
 import lombok.NonNull;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -48,8 +50,8 @@ public class UserResource {
      * @return found users
      */
     @GET
-    public Response getAll() {
-        final EntityList<UserViewDto> entityList = mediator.getAll();
+    public Response getAll(@Valid @BeanParam PaginationFilter filter) {
+        final EntityList<UserViewDto> entityList = mediator.getAll(filter);
         // TODO: move the extraction to JAX-RS response filter
         return ok().header("X-TotalCount", entityList.getTotalCount()).entity(entityList.getEntities()).build();
     }

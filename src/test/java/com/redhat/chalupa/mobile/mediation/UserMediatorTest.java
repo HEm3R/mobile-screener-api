@@ -2,6 +2,7 @@ package com.redhat.chalupa.mobile.mediation;
 
 import com.redhat.chalupa.mobile.api.dtos.UserUpdateDto;
 import com.redhat.chalupa.mobile.api.dtos.UserViewDto;
+import com.redhat.chalupa.mobile.api.params.PaginationFilter;
 import com.redhat.chalupa.mobile.dal.UserDao;
 import com.redhat.chalupa.mobile.domain.model.User;
 import org.bson.types.ObjectId;
@@ -36,13 +37,16 @@ public class UserMediatorTest {
 
     @Test
     public void testGetAll() {
+        final PaginationFilter filter = new PaginationFilter();
+        filter.setLimit(5);
+        filter.setOffset(10);
         final User user = User.builder().username("username").build();
-        final long totalCount = 1L;
-        when(dao.find()).thenReturn(Arrays.asList(user));
+        final long totalCount = 16L;
+        when(dao.find(filter.getLimit(), filter.getOffset())).thenReturn(Arrays.asList(user));
         when(dao.count()).thenReturn(totalCount);
 
 
-        final EntityList<UserViewDto> views = mediator.getAll();
+        final EntityList<UserViewDto> views = mediator.getAll(filter);
         assertThat(views.getEntities()).containsExactly(mapper().map(user, UserViewDto.class));
         assertThat(views.getTotalCount()).isEqualTo(totalCount);
     }

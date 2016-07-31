@@ -6,6 +6,7 @@ import com.redhat.chalupa.mobile.domain.model.User;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 
 import java.util.List;
 
@@ -32,8 +33,16 @@ public class UserDao {
         return datastore.find(User.class, ID_FIELD, id).get();
     }
 
-    public List<User> find() {
-        return datastore.find(User.class).asList();
+    public List<User> find(Integer limit, Integer offset) {
+        final Query<User> query = datastore.find(User.class);
+        if (limit != null) {
+            query.limit(limit);
+        }
+        if (offset != null) {
+            query.offset(offset);
+        }
+
+        return query.asList();
     }
 
     public long count() {
