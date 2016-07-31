@@ -77,9 +77,18 @@ Returns all users.
 
 Gets concrete user.
 
-#### CREATE /api/user
+### CREATE /api/user
 
 Creates new user.
+
+#### Validation
+
+There is some sample validation on fields:
+
+* `email` - must be well-formed email address
+* `gender` - must be female or male
+* `location`, `name`, `picture` - cannot be null
+* `username` and others - cannot be empty
 
 #### Response Headers
 
