@@ -2,7 +2,7 @@ package com.redhat.chalupa.mobile.api.resources;
 
 import com.redhat.chalupa.mobile.api.dtos.UserUpdateDto;
 import com.redhat.chalupa.mobile.api.dtos.UserViewDto;
-import com.redhat.chalupa.mobile.api.params.PaginationFilter;
+import com.redhat.chalupa.mobile.api.params.SortablePaginationFilter;
 import com.redhat.chalupa.mobile.mediation.EntityList;
 import com.redhat.chalupa.mobile.mediation.UserMediator;
 import org.bson.types.ObjectId;
@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,7 +34,7 @@ public class UserResourceTest {
 
     @Test
     public void testGetAll() {
-        final PaginationFilter filter = new PaginationFilter();
+        final SortablePaginationFilter filter = new SortablePaginationFilter();
         final UserViewDto dto = new UserViewDto();
         dto.setUsername("username");
         final EntityList<UserViewDto> views = new EntityList<>(asList(dto), 1L);

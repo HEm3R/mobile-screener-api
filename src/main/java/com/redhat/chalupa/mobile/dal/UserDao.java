@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.redhat.chalupa.mobile.domain.model.User;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
@@ -13,6 +14,7 @@ import java.util.List;
 /**
  * Data access object for {@link User}.
  */
+@Slf4j
 @Singleton
 public class UserDao {
 
@@ -33,7 +35,7 @@ public class UserDao {
         return datastore.find(User.class, ID_FIELD, id).get();
     }
 
-    public List<User> find(Integer limit, Integer offset) {
+    public List<User> find(Integer limit, Integer offset, String orderBy) {
         final Query<User> query = datastore.find(User.class);
         if (limit != null) {
             query.limit(limit);
@@ -41,8 +43,14 @@ public class UserDao {
         if (offset != null) {
             query.offset(offset);
         }
+        if (orderBy != null) {
+            query.order(orderBy);
+        }
 
-        return query.asList();
+        log.info("action=find-users status=START limit={} offset={} orderBy={}", limit, offset, orderBy);
+        final List<User> users = query.asList();
+        log.info("action=find-users status=FINISH limit={} offset={} orderBy={}", limit, offset, orderBy);
+        return users;
     }
 
     public long count() {
