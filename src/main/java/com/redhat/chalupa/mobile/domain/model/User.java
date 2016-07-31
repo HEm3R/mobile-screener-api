@@ -6,12 +6,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
 
-@Data
-@Builder
 @Entity(value = "User", noClassnameStored = true)
+@Data
+@NoArgsConstructor
 public class User {
+
+    @Id
+    private ObjectId id;
 
     private Gender gender;
     private Name name;
@@ -29,6 +34,31 @@ public class User {
     private String cell;
     private String PPS;
     private Picture picture;
+
+    @Builder
+    public User(
+            ObjectId id, Gender gender, Name name, Location location, String email, String username, String password,
+            String salt, String md5, String sha1, String sha256, Long registered, Long dob, String phone, String cell,
+            String PPS, Picture picture) {
+
+        this.id = id;
+        this.gender = gender;
+        this.name = name;
+        this.location = location;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.salt = salt;
+        this.md5 = md5;
+        this.sha1 = sha1;
+        this.sha256 = sha256;
+        this.registered = registered;
+        this.dob = dob;
+        this.phone = phone;
+        this.cell = cell;
+        this.PPS = PPS;
+        this.picture = picture;
+    }
 
     @AllArgsConstructor
     public enum Gender implements IntegerConvertible {
