@@ -21,7 +21,7 @@ logging:
       timeZone: UTC
 
 mongo:
-  host: localhost
-  port: 27017
+  host: ${env.MONGO_HOST!'localhost'}
+  port: ${env.MONGO_PORT!27017}
   db: mobile
   seed: ${env.DB_SEED!'yes'}

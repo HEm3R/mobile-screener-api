@@ -24,9 +24,25 @@ Application will be started with default configuration. You can can set followin
 
 * PORT - default is 8080
 * LOG_LEVEL - default is DEBUG
+* MONGO_HOST - default is localhost
+* MONGO_PORT - default is 27017
 * DB_SEED - whether to import seed.json to MongoDB
 
 See [configuration.yml](configuration.yml) for more info about configuration.
+
+### Run as Docker Images
+
+```
+# build image, application must be packaged before
+docker build -t vchalupa/mobile-screener .
+
+# run docker compose
+docker-compose up
+```
+
+The API is then on port `8080`.
+
+In case you do not want to seed the DB, change the `DB_SEED` in `docker-compose.yml` to `no`.
 
 ## Tests
 

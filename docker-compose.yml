@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  mongo:
+    restart: always
+    image: mongo
+    container_name: mongo
+
+  mobile-screener-api:
+    restart: always
+    image: vchalupa/mobile-screener
+    container_name: mobile-screener-api
+    depends_on:
+    - mongo
+    ports:
+    - "8080:80"
+    environment:
+    - DB_SEED=yes
+    - MONGO_HOST=mongo
