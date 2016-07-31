@@ -8,17 +8,17 @@ import javax.validation.constraints.Pattern;
 import javax.ws.rs.QueryParam;
 
 /**
- * {@link PaginationFilter} with support for sorting.
+ * {@link SortablePaginationFilter} with support for filtering.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class SortablePaginationFilter extends PaginationFilter {
+public class FilterableSortablePaginationFilter extends SortablePaginationFilter {
 
     /**
      * Ordering of returned result set.
      */
-    @Pattern(regexp = "[a-zA-Z0-9-_.,]*")
-    @QueryParam("orderBy")
-    private String orderBy;
+    @Pattern(regexp = "[^,]+,.+")
+    @QueryParam("filter")
+    private String filter;
 }

@@ -35,8 +35,11 @@ public class UserDao {
         return datastore.find(User.class, ID_FIELD, id).get();
     }
 
-    public List<User> find(Integer limit, Integer offset, String orderBy) {
+    public List<User> find(String filter, Integer limit, Integer offset, String orderBy) {
         final Query<User> query = datastore.find(User.class);
+
+        applyFilter(query, filter);
+
         if (limit != null) {
             query.limit(limit);
         }
@@ -47,17 +50,26 @@ public class UserDao {
             query.order(orderBy);
         }
 
-        log.info("action=find-users status=START limit={} offset={} orderBy={}", limit, offset, orderBy);
+        log.info("action=find-users status=START filter={} limit={} offset={} orderBy={}", filter, limit, offset, orderBy);
         final List<User> users = query.asList();
-        log.info("action=find-users status=FINISH limit={} offset={} orderBy={}", limit, offset, orderBy);
+        log.info("action=find-users status=FINISH filter={} limit={} offset={} orderBy={}", filter, limit, offset, orderBy);
         return users;
     }
 
-    public long count() {
-        return datastore.find(User.class).countAll();
+    public long count(String filter) {
+        final Query<User> query = datastore.find(User.class);
+        applyFilter(query, filter);
+        return query.countAll();
     }
 
     public void remove(ObjectId id) {
         datastore.delete(datastore.createQuery(User.class).field(ID_FIELD).equal(id));
+    }
+
+    private void applyFilter(Query<User> query, String filter) {
+        if (filter != null) {
+            final String[] parts = filter.split(",");
+            query.filter(parts[0], parts[1]);
+        }
     }
 }

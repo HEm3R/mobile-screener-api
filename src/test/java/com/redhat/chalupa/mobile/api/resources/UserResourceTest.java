@@ -2,6 +2,7 @@ package com.redhat.chalupa.mobile.api.resources;
 
 import com.redhat.chalupa.mobile.api.dtos.UserUpdateDto;
 import com.redhat.chalupa.mobile.api.dtos.UserViewDto;
+import com.redhat.chalupa.mobile.api.params.FilterableSortablePaginationFilter;
 import com.redhat.chalupa.mobile.api.params.SortablePaginationFilter;
 import com.redhat.chalupa.mobile.mediation.EntityList;
 import com.redhat.chalupa.mobile.mediation.UserMediator;
@@ -34,7 +35,7 @@ public class UserResourceTest {
 
     @Test
     public void testGetAll() {
-        final SortablePaginationFilter filter = new SortablePaginationFilter();
+        final FilterableSortablePaginationFilter filter = new FilterableSortablePaginationFilter();
         final UserViewDto dto = new UserViewDto();
         dto.setUsername("username");
         final EntityList<UserViewDto> views = new EntityList<>(asList(dto), 1L);

@@ -43,20 +43,22 @@ public class UserDaoTest {
     public void testFindAll() {
         final User user = User.builder().username("username").build();
         when(datastore.find(User.class).asList()).thenReturn(Arrays.asList(user));
-        assertThat(dao.find(null, null, null)).containsExactly(user);
+        assertThat(dao.find(null, null, null, null)).containsExactly(user);
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void testFindAllWithFilter() {
+        final String filter = "username ==,user567";
         final int limit = 15;
         final int offset = 2;
         final String orderBy = "username";
         final Query<User> query = mock(Query.class);
         when(datastore.find(User.class)).thenReturn(query);
 
-        assertThat(dao.find(limit, offset, orderBy));
+        assertThat(dao.find(filter, limit, offset, orderBy));
 
+        verify(query).filter("username ==", "user567");
         verify(query).limit(limit);
         verify(query).offset(offset);
         verify(query).order(orderBy);
@@ -75,7 +77,7 @@ public class UserDaoTest {
     public void testCount() {
         final long count = 10L;
         when(datastore.find(User.class).countAll()).thenReturn(count);
-        assertThat(dao.count()).isEqualTo(count);
+        assertThat(dao.count(null)).isEqualTo(count);
     }
 
     @Test

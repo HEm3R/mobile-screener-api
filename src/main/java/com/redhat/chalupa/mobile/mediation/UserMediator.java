@@ -4,8 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.redhat.chalupa.mobile.api.dtos.UserUpdateDto;
 import com.redhat.chalupa.mobile.api.dtos.UserViewDto;
-import com.redhat.chalupa.mobile.api.params.PaginationFilter;
-import com.redhat.chalupa.mobile.api.params.SortablePaginationFilter;
+import com.redhat.chalupa.mobile.api.params.FilterableSortablePaginationFilter;
 import com.redhat.chalupa.mobile.dal.UserDao;
 import com.redhat.chalupa.mobile.domain.model.User;
 import lombok.NonNull;
@@ -32,9 +31,9 @@ public class UserMediator {
         this.dao = dao;
     }
 
-    public EntityList<UserViewDto> getAll(@NonNull SortablePaginationFilter filter) {
-        final List<User> users = dao.find(filter.getLimit(), filter.getOffset(), filter.getOrderBy());
-        final long totalCount = dao.count();
+    public EntityList<UserViewDto> getAll(@NonNull FilterableSortablePaginationFilter filter) {
+        final List<User> users = dao.find(filter.getFilter(), filter.getLimit(), filter.getOffset(), filter.getOrderBy());
+        final long totalCount = dao.count(filter.getFilter());
         return new EntityList<>(mapper().mapAsList(users, UserViewDto.class), totalCount);
     }
 

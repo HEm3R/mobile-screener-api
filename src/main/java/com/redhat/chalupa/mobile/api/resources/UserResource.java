@@ -2,6 +2,7 @@ package com.redhat.chalupa.mobile.api.resources;
 
 import com.redhat.chalupa.mobile.api.dtos.UserUpdateDto;
 import com.redhat.chalupa.mobile.api.dtos.UserViewDto;
+import com.redhat.chalupa.mobile.api.params.FilterableSortablePaginationFilter;
 import com.redhat.chalupa.mobile.api.params.PaginationFilter;
 import com.redhat.chalupa.mobile.api.params.SortablePaginationFilter;
 import com.redhat.chalupa.mobile.mediation.EntityList;
@@ -51,7 +52,7 @@ public class UserResource {
      * @return found users
      */
     @GET
-    public Response getAll(@Valid @BeanParam SortablePaginationFilter filter) {
+    public Response getAll(@Valid @BeanParam FilterableSortablePaginationFilter filter) {
         final EntityList<UserViewDto> entityList = mediator.getAll(filter);
         // TODO: move the extraction to JAX-RS response filter
         return ok().header("X-TotalCount", entityList.getTotalCount()).entity(entityList.getEntities()).build();
